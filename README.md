@@ -26,7 +26,7 @@ A service consist of two parts
 2. An entry in the service `modules`
 
 ### Service entry in the registry
-A service entry in the registry is basically a folder which contains a `settings.json` file and a python file.
+A service entry in the `registry` is basically a folder which contains a `settings.json` file and a python file.
 The json file defines the job associated with the service and the python file provides a callback function whose return value determines when a job is to be run.
 - The `settings.json` file can either be an object or an array of objects with the following fields:
     `jobName` :  [string,required] the name of the job, this should be unique from other service jobs
@@ -41,3 +41,10 @@ The json file defines the job associated with the service and the python file pr
 
 - The python file should contain the `callback` function(s) you stated in the `settings.json` file
 - For an example check the `temp` service folder in the `services` folder.
+
+### Service entry in the modules
+A service entry in the `modules` is basically a folder which contains at least a python file with the `worker` function definition and other python files and any other file needed to run the worker function. This should usually be prepared as a python module.
+For an example of the service entry in the `modules` directory see the `temp` service in the `services` folder.
+
+
+## The callback function

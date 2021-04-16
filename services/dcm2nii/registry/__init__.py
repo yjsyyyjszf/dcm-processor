@@ -1,16 +1,16 @@
 import os
 
-def callback(headers, added_params, **kwargs):
-  params = {}
+def callback(jobName, headers, params, added_params, **kwargs):
+  injected_params = {}
   
   if "seriesId" in headers:
     seriesId = headers.get("seriesId")
-    params["output"] = os.path.join("nifti", f"{seriesId}.nii.gz")
-    params["base"] = "nifti"
-    params["filename"] = f"{seriesId}"
-    params["ext"] = ".nii.gz"
+    injected_params["output"] = os.path.join("nifti", f"{seriesId}.nii.gz")
+    injected_params["base"] = "nifti"
+    injected_params["filename"] = f"{seriesId}"
+    injected_params["ext"] = ".nii.gz"
 
     # Add files to be deleted
-    params["deleted"] = ["nifti"]
+    injected_params["deleted"] = ["nifti"]
 
-  return True, params
+  return True, injected_params

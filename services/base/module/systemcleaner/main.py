@@ -2,7 +2,7 @@ import os, shutil
 
 DATA = os.getenv('DATA', '/data')
 
-def worker(headers, params, added_params, **kwargs):
+def worker(jobName, headers, params, added_params, **kwargs):
   try:
     for j in list(added_params.values()):
       if "deleted" in j:

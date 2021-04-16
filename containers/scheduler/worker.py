@@ -181,7 +181,8 @@ def check_callbacks(jobs, headers, params = {}):
                 mod_name, func_name = callback.rsplit(".", 1)
                 mod = importlib.import_module(mod_name)
                 func = getattr(mod, func_name)
-                result, j_params = func(headers, params)
+                kwargs = {"jobName": config.get("jobName"), "headers": headers, "added_params": params, "params": config.get("params")}
+                result, j_params = func(**kwargs)
 
                 if result:
                     params[config["jobName"]] = j_params

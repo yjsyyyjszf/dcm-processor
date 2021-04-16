@@ -6,4 +6,9 @@ docker-compose up -d redis_server orthanc scheduler
 
 sleep 5
 
-docker-compose up -d
+if [ -z "$1" ]
+then
+  docker-compose up -d
+else
+  docker-compose up $1 -d
+fi

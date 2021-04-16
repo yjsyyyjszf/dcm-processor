@@ -1,5 +1,5 @@
-def dicomAnonymizer(headers, added_params, **kwargs):
+def dicomAnonymizer(jobName, headers, params, added_params, **kwargs):
   return True, {}
 
-def systemcleaner(headers, added_params, **kwargs):
+def systemcleaner(jobName, headers, params, added_params, **kwargs):
   return True, {}

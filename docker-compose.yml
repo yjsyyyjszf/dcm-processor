@@ -28,7 +28,7 @@ services:
       MODULES: /modules
       LOGS: /logs
     volumes:
-      - ./worker:/app
+      - ./containers/worker:/app
       - ${BASEDIR}${MODULES}:/modules:cached
       - ${BASEDIR}${DATA}:/data:rw
       - ${BASEDIR}${LOGS}:/logs:rw
@@ -47,7 +47,7 @@ services:
       LOGS: /logs
       DEFUALT_PRIORITY: ${DEFUALT_PRIORITY}
     volumes:
-      - ./scheduler:/app
+      - ./containers/scheduler:/app
       - ${BASEDIR}${REGISTRY}:/registry:cached
       - ${BASEDIR}${DATA}:/data:rw
       - ${BASEDIR}${LOGS}:/logs:rw
@@ -65,7 +65,7 @@ services:
     ports:
       - 8080:8080
     volumes:
-      - ./dashboard:/app
+      - ./containers/dashboard:/app
 
   orthanc:
     image: jodogne/orthanc-plugins:1.6.1

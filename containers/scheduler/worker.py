@@ -73,7 +73,7 @@ def load_system_config():
 
 
 def start_job(jobname, worker, kwargs, timeout='1h', priority=None, depends_on=None):
-
+    kwargs["jobName"] = jobname
     if priority is None:
         priority = DEFUALT_PRIORITY
 
@@ -130,17 +130,7 @@ def restructure_jobs(jobs):
 def process_final_jobs(jobs, headers, added_params, jobIds={}, dependsOn=[]):
     for job in jobs:
         depends_on = None
-        kwargs = {"headers": headers, "added_params": added_params}
-
-        if "params" in job:
-            params = job.get("params")
-            if isinstance(params, dict):
-                params["config"] = job
-                kwargs["params"] = params
-            else:
-                kwargs["params"] = {"config": job}
-        else:
-            kwargs["params"] = {"config": job}
+        kwargs = {"headers": headers, "added_params": added_params, "params": job.get("params")}
 
         j_depends = []
         if "dependsOn" in job:

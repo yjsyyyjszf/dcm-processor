@@ -182,7 +182,20 @@ def check_callbacks(jobs, headers, params = {}):
                 mod = importlib.import_module(mod_name)
                 func = getattr(mod, func_name)
                 kwargs = {"jobName": config.get("jobName"), "headers": headers, "added_params": params, "params": config.get("params")}
-                result, j_params = func(**kwargs)
+                results = func(**kwargs)
+                
+                j_params = {}
+                result = False
+
+                if isinstance(results, list) or isinstance(results, tuple):
+                    if len(results) > 0:
+                        result = results[0]
+                    if len(results) > 1:
+                        if isinstance(results[1], dict):
+                            j_params = results[1]
+                else:
+                    result = results
+
 
                 if result:
                     params[config["jobName"]] = j_params

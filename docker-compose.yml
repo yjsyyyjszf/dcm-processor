@@ -92,12 +92,12 @@ services:
 
 secrets:
   orthanc.json:
-    file: ./orthanc-anduin/orthanc.json
+    file: ./containers/orthanc-anduin/orthanc.json
   Dcm2NiftiLua.lua:
-    file: ./orthanc-anduin/Dcm2NiftiLua.lua
+    file: ./containers/orthanc-anduin/Dcm2NiftiLua.lua
   DcmFilterLua.lua:
-    file: ./orthanc-anduin/DcmFilterLua.lua
+    file: ./containers/orthanc-anduin/DcmFilterLua.lua
   Orthanc2PacsLua.lua:
-    file: ./orthanc-anduin/Orthanc2PacsLua.lua
+    file: ./containers/orthanc-anduin/Orthanc2PacsLua.lua
   dcm2niix:
-    file: ./orthanc-anduin/dcm2niix
+    file: ./containers/orthanc-anduin/dcm2niix

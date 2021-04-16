@@ -1,0 +1,29 @@
+{
+  "headerFields": ["PerfomedProcedureStepDescription", "seriesId", "dcmpath"],
+  "preServices": [
+    {
+      "jobName": "dicomAnonymizer",
+      "worker": "base.DicomAnonymizerService.worker",
+      "callback": "base.dicomAnonymizer",
+      "dependsOn": null,
+      "priority": "default",
+      "timeout": "1h",
+      "params": {},
+      "sortPosition": 0,
+      "description": "Dicom Anonymizer Service"
+    }
+  ],
+  "postServices":[
+    {
+      "jobName": "systemClearner",
+      "worker": "base.systemcleaner.worker",
+      "callback": "base.systemcleaner",
+      "dependsOn": null,
+      "priority": "default",
+      "timeout": "1h",
+      "params": {},
+      "sortPosition": 0,
+      "description": "System Cleaning Service"
+    }
+  ]
+}

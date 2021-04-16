@@ -1,0 +1,103 @@
+version: '3.7'
+
+volumes:
+  redis-data:
+    driver: local
+
+services:
+  redis_server:
+    image: 'bitnami/redis:latest'
+    expose:
+      - "${REDIS_PORT}"
+    environment:
+      REDIS_PASSWORD: ${REDIS_PSWD}
+      REDIS_DISABLE_COMMANDS: FLUSHDB,FLUSHALL
+    volumes:
+      - redis-data:/bitnami/redis/data
+
+  worker:
+    build: ./containers/worker
+    depends_on:
+      - redis_server
+    environment:
+      REDIS_PSWD: ${REDIS_PSWD}
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_PORT: ${REDIS_PORT}
+      JOBS: ${WORKER_JOBS}
+      DATA: /data
+      MODULES: /modules
+      LOGS: /logs
+    volumes:
+      - ./worker:/app
+      - ${BASEDIR}${MODULES}:/modules:cached
+      - ${BASEDIR}${DATA}:/data:rw
+      - ${BASEDIR}${LOGS}:/logs:rw
+
+  scheduler:
+    build: ./containers/scheduler
+    depends_on:
+      - redis_server
+    environment:
+      REDIS_PSWD: ${REDIS_PSWD}
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_PORT: ${REDIS_PORT}
+      JOBS: ${WORKER_JOBS}
+      DATA: /data
+      REGISTRY: /registry
+      LOGS: /logs
+      DEFUALT_PRIORITY: ${DEFUALT_PRIORITY}
+    volumes:
+      - ./scheduler:/app
+      - ${BASEDIR}${REGISTRY}:/registry:cached
+      - ${BASEDIR}${DATA}:/data:rw
+      - ${BASEDIR}${LOGS}:/logs:rw
+
+  dashboard:
+    build: ./containers/dashboard
+    depends_on:
+      - redis_server
+    environment:
+      REDIS_PSWD: ${REDIS_PSWD}
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_PORT: ${REDIS_PORT}
+    expose:
+      - "9181"
+    ports:
+      - 8080:8080
+    volumes:
+      - ./dashboard:/app
+
+  orthanc:
+    image: jodogne/orthanc-plugins:1.6.1
+    command: /run/secrets/  # Path to the configuration files (stored as secrets)
+    expose:
+      - "4242"
+      - "8042"
+    ports:
+      - 4242:4242
+      - 8042:8042
+    volumes:
+      - ${BASEDIR}/orthanc/db:/var/lib/orthanc/db:rw                # Persitent Orthanc DB
+      - ${BASEDIR}/orthanc/dblight:/var/lib/orthanc/dblight:rw      # Persitent Orthanc DB
+      - ${BASEDIR}${DATA}:/tmp/nifti:rw                                         # Temp folder
+    secrets:
+      - orthanc.json
+      - Dcm2NiftiLua.lua
+      - DcmFilterLua.lua
+      - Orthanc2PacsLua.lua
+      - dcm2niix
+    environment:
+      SCHEDULER_HOST: ${SCHEDULER_HOST}
+      SCHEDULER_PORT: ${SCHEDULER_PORT}
+
+secrets:
+  orthanc.json:
+    file: ./orthanc-anduin/orthanc.json
+  Dcm2NiftiLua.lua:
+    file: ./orthanc-anduin/Dcm2NiftiLua.lua
+  DcmFilterLua.lua:
+    file: ./orthanc-anduin/DcmFilterLua.lua
+  Orthanc2PacsLua.lua:
+    file: ./orthanc-anduin/Orthanc2PacsLua.lua
+  dcm2niix:
+    file: ./orthanc-anduin/dcm2niix

@@ -12,10 +12,10 @@ A dicom processing library setup with docker containers.
 Note: Its good to run the containers without `sudo`. This can be achieved by creating  the `docker` group is not already created and adding your user account to this group. `sudo groupadd docker && sudo usermod -aG docker $USER`
 
 ## Containers in this library
-1. orthanc    : The orthanc server which servers as an intermedairy between dicom providers and our services.
-2. scheduler  : The flask based service for scheduling jobs in our service registry.
-3. worker     : A worker container which executes the scheduled tasks.
-4. dashboard  : A dashboard for RQ workers. Which shows the state of scheduled jobs.
+1. `orthanc`    : The orthanc server which servers as an intermedairy between dicom providers and our services.
+2. `scheduler`  : The flask based service for scheduling jobs in our service registry.
+3. `worker`     : A worker container which executes the scheduled tasks.
+4. `dashboard`  : A dashboard for RQ workers. Which shows the state of scheduled jobs.
 
 
 ## Scaling up workers

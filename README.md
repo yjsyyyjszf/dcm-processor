@@ -46,7 +46,11 @@ The json file defines the job associated with the service and the python file pr
 - For an example check the `temp` service folder in the `services` folder.
 
 ### Service entry in the `modules`
-A service entry in the `modules` is basically a folder which contains at least a python file with the `worker` function definition and other python files and any other file needed to run the worker function. This should usually be prepared as a python module.
+- A service entry in the `modules` is basically a folder which contains at least a python file with the `worker` function definition and other python files and any other file needed to run the worker function.
+- This should usually be prepared as a python module.
+- Module dependencies should be added using a `requirements.txt` in the same folder.
+- A special shell script `script.sh` can also be added to the same folder which will be run by the worker container.
+
 For an example of the service entry in the `modules` directory see the `temp` service in the `services` folder.
 
 

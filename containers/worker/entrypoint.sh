@@ -12,14 +12,14 @@ SCRIPTS="$MODULES/*/script.sh"
 
 alias pip='python -m pip'
 
-for REQUIREMENT in $(ls $REQUIREMENTS)
-do
-  python -m pip install -r "$REQUIREMENT"
-done
-
 for SCRIPT in $(ls $SCRIPTS)
 do
   bash "$SCRIPT"
+done
+
+for REQUIREMENT in $(ls $REQUIREMENTS)
+do
+  python -m pip install -r "$REQUIREMENT"
 done
 
 when-changed "$REQUIREMENTS" -c python -m pip install -r %f >> $PLOGS &

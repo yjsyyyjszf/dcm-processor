@@ -1,7 +1,6 @@
 #!/bin/bash
 
-BASEDIR=./mapped_folders
-
+set -o allexport; source .env; set +o allexport
 
 usage()
 {
@@ -70,9 +69,9 @@ then
   fi
 
   echo "copying module folder..."
-  cp -r "$SERVICEPATH/module" "$BASEDIR/modules/$SERVICENAME"
+  cp -r "$SERVICEPATH/module" "$BASEDIR/$MODULES/$SERVICENAME"
   echo "copying registry folder..."
-  cp -r "$SERVICEPATH/registry" "$BASEDIR/registry/$SERVICENAME"
+  cp -r "$SERVICEPATH/registry" "$BASEDIR/$REGISTRY/$SERVICENAME"
 
 fi
 
@@ -96,9 +95,9 @@ then
 
   mkdir -p "$BACKUPPATH/$SERVICENAME"
   echo "Copying registry entry"
-  cp -r "$BASEDIR/registry/$SERVICENAME" "$BACKUPPATH/$SERVICENAME/registry"
+  cp -r "$BASEDIR/$REGISTRY/$SERVICENAME" "$BACKUPPATH/$SERVICENAME/registry"
   echo "Copying modules entry"
-  cp -r "$BASEDIR/modules/$SERVICENAME" "$BACKUPPATH/$SERVICENAME/module"
+  cp -r "$BASEDIR/$MODULES/$SERVICENAME" "$BACKUPPATH/$SERVICENAME/module"
 
 fi
 
@@ -119,15 +118,15 @@ then
   if [ -z "$BACKUPPATH" ]
   then
     echo "removing registry entry"
-    rm -rf "$BASEDIR/registry/$SERVICENAME"
+    rm -rf "$BASEDIR/$REGISTRY/$SERVICENAME"
     echo "removing modules entry"
-    rm -rf "$BASEDIR/modules/$SERVICENAME"
+    rm -rf "$BASEDIR/$MODULES/$SERVICENAME"
   else
     mkdir -p "$BACKUPPATH/$SERVICENAME"
     echo "Moving registry entry"
-    mv "$BASEDIR/registry/$SERVICENAME" "$BACKUPPATH/$SERVICENAME/registry"
+    mv "$BASEDIR/$REGISTRY/$SERVICENAME" "$BACKUPPATH/$SERVICENAME/registry"
     echo "Moving modules entry"
-    mv "$BASEDIR/modules/$SERVICENAME" "$BACKUPPATH/$SERVICENAME/module"
+    mv "$BASEDIR/$MODULES/$SERVICENAME" "$BACKUPPATH/$SERVICENAME/module"
   fi
 
 fi

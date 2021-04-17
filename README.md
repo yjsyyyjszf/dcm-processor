@@ -8,6 +8,7 @@ A dicom processing library setup with docker containers
 1. open the `.env` file with any text editor and set the `BASEDIR` variable to a folder which will be used a a base for mounting docker volumes
 2. build and pull docker images with `bash build.sh` [Run with `sudo` if needed]
 3. run docker containers with `bash run.sh`
+4. initialize base service with `bash init.sh`
 
 ## Containers in this library
 1. orthanc    : The orthanc server which servers as an intermedairy between dicom providers and our services.

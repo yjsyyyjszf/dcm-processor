@@ -91,3 +91,9 @@ This script can be used to `install`, `remove`, and `backup` services.
 - To install a service run `service.sh install [servicename] [-p parentFolderPath]`
 - To remove a service run `service.sh remove [servicename] [-b backupPath]` backup path is optional
 - To backup a service run `service.sh backup [servicename] [-b backupPath]`
+
+
+## TO DOs
+1. Support direct service installation from `git` source.
+2. Support virtualenv based workers.
+3. Create a CLI which can be installed with apt or npm or pip

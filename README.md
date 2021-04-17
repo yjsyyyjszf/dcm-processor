@@ -50,7 +50,7 @@ A service entry in the `modules` is basically a folder which contains at least a
 For an example of the service entry in the `modules` directory see the `temp` service in the `services` folder.
 
 
-## The callback function
+### The callback function
 A `callback` function takes the following arguments
    - `jobName`   : The name of the job.
    - `headers`   : The selected fields in the dicom header.
@@ -65,7 +65,7 @@ Note:
 4. The callback function should NOT be used to perform time intensive tasks. The actual job should be handled in the `worker` function.
 
 
-## The worker function
+### The worker function
 A `worker` function takes the following arguments
    - `jobName`   : The name of the job.
    - `headers`   : The selected fields in the dicom header.
@@ -76,3 +76,14 @@ A `worker` function takes the following arguments
 Note:
 1. Arguments are passed by name which means `exact names` should be used and position is NOT important.
 2. The worker function is where all the processing takes place and thats the function that will be scheduled to be handled by the RQ workers.
+3. The worker function should not return any value. [it can but will not be used for anything].
+
+
+## The `service.sh` script.
+This script can be used to `install`, `remove`, and `backup` services.
+- An installable service should be a parent folder with two sub-folders:
+    * `registry` : This contains the files which will go into the services registry
+    * `module`  : This contains the module files which goes into the services modules
+- To install a service run `service.sh install [servicename] [-p parentFolderPath]`
+- To remove a service run `service.sh remove [servicename] [-b backupPath]` backup path is optional
+- To backup a service run `service.sh backup [servicename] [-b backupPath]`

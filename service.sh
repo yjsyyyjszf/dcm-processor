@@ -73,6 +73,8 @@ then
     read -p "Enter Service Path :" SERVICEPATH
   fi
 
+  echo "stopping containers..."
+  $compose stop worker scheduler
   if [ -d "$BASEDIR/$MODULES/$SERVICENAME" ]
   then
     echo "removing existing service module entry..."
@@ -89,6 +91,8 @@ then
   cp -r "$SERVICEPATH/module" "$BASEDIR/$MODULES/$SERVICENAME"
   echo "copying registry folder..."
   cp -r "$SERVICEPATH/registry" "$BASEDIR/$REGISTRY/$SERVICENAME"
+  echo "starting workers..."
+  $compose up -d worker scheduler
 fi
 
 

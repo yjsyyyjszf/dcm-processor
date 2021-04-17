@@ -32,14 +32,14 @@ Once you have prepare your entries you can use the `service.sh` script to instal
 A service entry in the `registry` is basically a folder which contains a `settings.json` file and a python file.
 The json file defines the job associated with the service and the python file provides a callback function whose return value determines when a job is to be run.
 - The `settings.json` file can either be an object or an array of objects with the following fields:
-    `jobName` :  [string,required] the name of the job, this should be unique from other service jobs
-    `worker` : [string,required] name of the function to be run as the worker, this should be a full function name. (see section below for details.)
-    `callback` : [string,required] name of the function which determines if a job should be scheduled for the current dicom processing or not. (see section below for details.)
+    `jobName` :  [string,required] the name of the job, this should be unique from other service jobs.
+    `worker` : [string,required] name of the function to be run as the worker, this should be a full function name. (see section below for details.).
+    `callback` : [string,required] name of the function which determines if a job should be scheduled for the current dicom processing or not. (see section below for details).
     `dependsOn` : [string/list,optional] name(s) of jobs which the current service job depends on. this will make sure that those jobs run successfully before this job runs.
     `priority` : [string,optional] the priority level assigned to this job. if not specified a default priority is assigned.
     `timeout` : [string/number,optional] the RQ queuing timeout default is 1 hour.
     `params`: [object,optional] this is an object with additional parameters that will be sent to the worker function.
-    `sortPosition` : [number,optional] this is a sorting variable which is used to sort the order in which jobs are scheduled (Note: independent jobs are however scheduled before dependent jobs)
+    `sortPosition` : [number,optional] this is a sorting variable which is used to sort the order in which jobs are scheduled (Note: independent jobs are however scheduled before dependent jobs).
     `description` : [string,optional] this is a description for this current job. Its not used in any operation but only for third parties to have an idea what your service does.
 
 - The python file should contain the `callback` function(s) you stated in the `settings.json` file
@@ -52,9 +52,9 @@ For an example of the service entry in the `modules` directory see the `temp` se
 
 ## The callback function
 A callback function takes the following arguments
-    `jobName`   : The name of the job
-    `headers`   : The selected fields in the dicom header
-    `params`    : The params object from the `settings.json`
+    `jobName`   : The name of the job.
+    `headers`   : The selected fields in the dicom header.
+    `params`    : The params object from the `settings.json`.
     `added_params`: This is a dictionary of `injected` params from other jobs.
     `**kwargs`  : We recommend you add this to the list of arguments to capture all other params that may be passed.
 

@@ -8,7 +8,7 @@ A dicom processing library setup with docker containers.
 1. open the `.env` file with any text editor and set the `BASEDIR` variable to a folder which will be used as a base for mounting docker volumes.
 2. build and pull docker images with `bash build.sh` [Run with `sudo` if needed].
 3. run docker containers with `bash run.sh` [Run with `sudo` if needed].
-4. initialize base service with `bash init.sh` [Run with `sudo` if needed].
+4. initialize base services with `bash init.sh` [Run with `sudo` if needed].
 Note: Its good to run the containers without `sudo`. This can be achieved by creating  the `docker` group is not already created and adding your user account to this group. `sudo groupadd docker && sudo usermod -aG docker $USER`
 
 ## Containers in this library
@@ -32,15 +32,15 @@ Once you have prepare your entries you can use the `service.sh` script to instal
 A service entry in the `registry` is basically a folder which contains a `settings.json` file and a python file.
 The json file defines the job associated with the service and the python file provides a callback function whose return value determines when a job is to be run.
 - The `settings.json` file can either be an object or an array of objects with the following fields:
-    `jobName` :  [string,required] the name of the job, this should be unique from other service jobs.
-    `worker` : [string,required] name of the function to be run as the worker, this should be a full function name. (see section below for details.).
-    `callback` : [string,required] name of the function which determines if a job should be scheduled for the current dicom processing or not. (see section below for details).
-    `dependsOn` : [string/list,optional] name(s) of jobs which the current service job depends on. this will make sure that those jobs run successfully before this job runs.
-    `priority` : [string,optional] the priority level assigned to this job. if not specified a default priority is assigned.
-    `timeout` : [string/number,optional] the RQ queuing timeout default is 1 hour.
-    `params`: [object,optional] this is an object with additional parameters that will be sent to the worker function.
-    `sortPosition` : [number,optional] this is a sorting variable which is used to sort the order in which jobs are scheduled (Note: independent jobs are however scheduled before dependent jobs).
-    `description` : [string,optional] this is a description for this current job. Its not used in any operation but only for third parties to have an idea what your service does.
+    * `jobName` :  [string,required] the name of the job, this should be unique from other service jobs.
+    * `worker` : [string,required] name of the function to be run as the worker, this should be a full function name. (see section below for details.).
+    * `callback` : [string,required] name of the function which determines if a job should be scheduled for the current dicom processing or not. (see section below for details).
+    * `dependsOn` : [string/list,optional] name(s) of jobs which the current service job depends on. this will make sure that those jobs run successfully before this job runs.
+    * `priority` : [string,optional] the priority level assigned to this job. if not specified a default priority is assigned.
+    * `timeout` : [string/number,optional] the RQ queuing timeout default is 1 hour.
+    * `params`: [object,optional] this is an object with additional parameters that will be sent to the worker function.
+    * `sortPosition` : [number,optional] this is a sorting variable which is used to sort the order in which jobs are scheduled (Note: independent jobs are however scheduled before dependent jobs).
+    * `description` : [string,optional] this is a description for this current job. Its not used in any operation but only for third parties to have an idea what your service does.
 
 - The python file should contain the `callback` function(s) you stated in the `settings.json` file
 - For an example check the `temp` service folder in the `services` folder.
@@ -51,18 +51,28 @@ For an example of the service entry in the `modules` directory see the `temp` se
 
 
 ## The callback function
-A callback function takes the following arguments
-    `jobName`   : The name of the job.
-    `headers`   : The selected fields in the dicom header.
-    `params`    : The params object from the `settings.json`.
-    `added_params`: This is a dictionary of `injected` params from other jobs.
-    `**kwargs`  : We recommend you add this to the list of arguments to capture all other params that may be passed.
+A `callback` function takes the following arguments
+   - `jobName`   : The name of the job.
+   - `headers`   : The selected fields in the dicom header.
+   - `params`    : The params object from the `settings.json`.
+   - `added_params`: This is a dictionary of `injected` params from other jobs.
+   - `**kwargs`  : We recommend you add this to the list of arguments to capture all other params that may be passed.
 
 Note:
-1. Arguments are passed by name which means exact names should be used and position is not important.
+1. Arguments are passed by name which means `exact names` should be used and position is NOT important.
 2. The callback function should return `True` if the job should be processed for the current dicom or `False` otherwise.
 3. It can also return a dictionary in addition to the `True/False` which will be sent to other `callbacks` and `worker` functions as `added_params`.
 4. The callback function should NOT be used to perform time intensive tasks. The actual job should be handled in the `worker` function.
 
 
 ## The worker function
+A `worker` function takes the following arguments
+   - `jobName`   : The name of the job.
+   - `headers`   : The selected fields in the dicom header.
+   - `params`    : The params object from the `settings.json`.
+   - `added_params`: This is a dictionary of `injected` params from other jobs.
+   - `**kwargs`  : We recommend you add this to the list of arguments to capture all other params that may be passed.
+
+Note:
+1. Arguments are passed by name which means `exact names` should be used and position is NOT important.
+2. The worker function is where all the processing takes place and thats the function that will be scheduled to be handled by the RQ workers.

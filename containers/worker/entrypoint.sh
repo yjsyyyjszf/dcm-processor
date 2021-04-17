@@ -22,8 +22,8 @@ do
   python -m pip install -r "$REQUIREMENT"
 done
 
-when-changed "$REQUIREMENTS" -c python -m pip install -r %f >> $PLOGS &
+watchmedo shell-command -p="$REQUIREMENTS" -R -D -c ' requirements.sh "${watch_event_type} ${watch_src_path}" >> $PLOGS ' &
 
-when-changed "$SCRIPTS" -c bash %f >> $SLOGS &
+watchmedo shell-command -p="$SCRIPTS" -R -D -c ' script.sh "${watch_event_type} ${watch_src_path}" >> $SLOGS ' &
 
 rq worker --path "$MODULES" -u "redis://:$REDIS_PSWD@$REDIS_HOST:$REDIS_PORT"  $JOBS

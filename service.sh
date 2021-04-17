@@ -2,6 +2,8 @@
 
 set -o allexport; source .env; set +o allexport
 
+compose="docker-compose -f docker-compose.yml"
+
 usage()
 {
   echo "Usage: $0 [-h] [action] [servicename] [ -p SERVICE_PATH ] [ -b BACKUP_PATH  ]"
@@ -75,7 +77,7 @@ then
   cp -r "$SERVICEPATH/module" "$BASEDIR/$MODULES/$SERVICENAME"
   echo "copying registry folder..."
   cp -r "$SERVICEPATH/registry" "$BASEDIR/$REGISTRY/$SERVICENAME"
-
+  $compose restart worker
 fi
 
 
@@ -101,7 +103,6 @@ then
   cp -r "$BASEDIR/$REGISTRY/$SERVICENAME" "$BACKUPPATH/$SERVICENAME/registry"
   echo "Copying modules entry"
   cp -r "$BASEDIR/$MODULES/$SERVICENAME" "$BACKUPPATH/$SERVICENAME/module"
-
 fi
 
 
@@ -124,12 +125,14 @@ then
     rm -rf "$BASEDIR/$REGISTRY/$SERVICENAME"
     echo "removing modules entry"
     rm -rf "$BASEDIR/$MODULES/$SERVICENAME"
+    $compose restart worker
   else
     mkdir -p "$BACKUPPATH/$SERVICENAME"
     echo "Moving registry entry"
     mv "$BASEDIR/$REGISTRY/$SERVICENAME" "$BACKUPPATH/$SERVICENAME/registry"
     echo "Moving modules entry"
     mv "$BASEDIR/$MODULES/$SERVICENAME" "$BACKUPPATH/$SERVICENAME/module"
+    $compose restart worker
   fi
 
 fi

@@ -9,6 +9,8 @@ WORKDIR /app
 COPY requirements.txt ./
 
 COPY entrypoint.sh ./
+COPY requirements.sh ./
+COPY script.sh ./
 
 # Install all required dependencies
 
@@ -18,7 +20,7 @@ RUN apt-get update && \
     apt-get update -y && \
     apt-get install -y python3.7 python3-pip python3.7-distutils && \
     ln -s /usr/bin/python3.7 /usr/bin/python && \
-    python -m pip install rq when-changed && \
+    python -m pip install rq watchdog argh pyyaml && \
     python -m pip install -r requirements.txt
 
 CMD ["bash", "entrypoint.sh"]

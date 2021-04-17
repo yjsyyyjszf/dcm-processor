@@ -21,7 +21,7 @@ function OnStableSeries(seriesId, tags, metadata)
       --print(patientId)
       --print(studyId)
 
-      local dcmpath = ToAscii(TARGET .. '/' .. seriesId)
+      local dcmpath = ToAscii(TARGET .. '/dicom/' .. seriesId)
       os.execute('mkdir -p "' .. dcmpath .. '"')
 
       local data = ParseJson(RestApiGet('/instances/' .. instances[1] .. '/simplified-tags'))
@@ -54,7 +54,7 @@ function OnStableSeries(seriesId, tags, metadata)
       data["patientId"] = patientId
       data["studyId"] = studyId
       data["seriesId"] = seriesId
-      data["dcmpath"] = seriesId
+      data["dcmpath"] = 'dicom/' .. seriesId
 
       local headers = {}
       headers["Content-Type"] = "application/json"

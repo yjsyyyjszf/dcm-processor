@@ -1,20 +1,21 @@
 # DCM PROCESSOR
-A dicom processing library setup with docker containers
+A dicom processing library setup with docker containers.
 
 ## DEPENDENCIES
 1. Docker & Docker Compose
 
 ## Getting up and running
-1. open the `.env` file with any text editor and set the `BASEDIR` variable to a folder which will be used a a base for mounting docker volumes
-2. build and pull docker images with `bash build.sh` [Run with `sudo` if needed]
-3. run docker containers with `bash run.sh`
-4. initialize base service with `bash init.sh`
+1. open the `.env` file with any text editor and set the `BASEDIR` variable to a folder which will be used as a base for mounting docker volumes.
+2. build and pull docker images with `bash build.sh` [Run with `sudo` if needed].
+3. run docker containers with `bash run.sh` [Run with `sudo` if needed].
+4. initialize base service with `bash init.sh` [Run with `sudo` if needed].
+Note: Its good to run the containers without `sudo`. This can be achieved by creating  the `docker` group is not already created and adding your user account to this group. `sudo groupadd docker && sudo usermod -aG docker $USER`
 
 ## Containers in this library
 1. orthanc    : The orthanc server which servers as an intermedairy between dicom providers and our services.
-2. scheduler  : The flask based service for scheduling jobs in our service registry
+2. scheduler  : The flask based service for scheduling jobs in our service registry.
 3. worker     : A worker container which executes the scheduled tasks.
-4. dashboard  : A dashboard for RQ workers. Which shows the state of scheduled jobs
+4. dashboard  : A dashboard for RQ workers. Which shows the state of scheduled jobs.
 
 
 ## Scaling up workers
@@ -22,11 +23,12 @@ You can scale the number of workers by pass the argument `--scale worker=N` wher
 
 
 ## Preparing your own service
-A service consist of two parts
-1. An entry in the services `registry`
-2. An entry in the service `modules`
+A service consist of two parts.
+1. An entry in the services `registry`.
+2. An entry in the service `modules`.
+Once you have prepare your entries you can use the `service.sh` script to install your service.
 
-### Service entry in the registry
+### Service entry in the `registry`
 A service entry in the `registry` is basically a folder which contains a `settings.json` file and a python file.
 The json file defines the job associated with the service and the python file provides a callback function whose return value determines when a job is to be run.
 - The `settings.json` file can either be an object or an array of objects with the following fields:
@@ -43,7 +45,7 @@ The json file defines the job associated with the service and the python file pr
 - The python file should contain the `callback` function(s) you stated in the `settings.json` file
 - For an example check the `temp` service folder in the `services` folder.
 
-### Service entry in the modules
+### Service entry in the `modules`
 A service entry in the `modules` is basically a folder which contains at least a python file with the `worker` function definition and other python files and any other file needed to run the worker function. This should usually be prepared as a python module.
 For an example of the service entry in the `modules` directory see the `temp` service in the `services` folder.
 

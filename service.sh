@@ -73,11 +73,22 @@ then
     read -p "Enter Service Path :" SERVICEPATH
   fi
 
+  if [ -d "$BASEDIR/$MODULES/$SERVICENAME" ]
+  then
+    echo "removing existing service module entry..."
+    rm -rf "$BASEDIR/$MODULES/$SERVICENAME"
+  fi
+
+  if [ -d "$BASEDIR/$REGISTRY/$SERVICENAME" ]
+  then
+    echo "removing existing service registry entry..."
+    rm -rf "$BASEDIR/$REGISTRY/$SERVICENAME"
+  fi
+
   echo "copying module folder..."
   cp -r "$SERVICEPATH/module" "$BASEDIR/$MODULES/$SERVICENAME"
   echo "copying registry folder..."
   cp -r "$SERVICEPATH/registry" "$BASEDIR/$REGISTRY/$SERVICENAME"
-  $compose restart worker
 fi
 
 
@@ -125,14 +136,12 @@ then
     rm -rf "$BASEDIR/$REGISTRY/$SERVICENAME"
     echo "removing modules entry"
     rm -rf "$BASEDIR/$MODULES/$SERVICENAME"
-    $compose restart worker
   else
     mkdir -p "$BACKUPPATH/$SERVICENAME"
     echo "Moving registry entry"
     mv "$BASEDIR/$REGISTRY/$SERVICENAME" "$BACKUPPATH/$SERVICENAME/registry"
     echo "Moving modules entry"
     mv "$BASEDIR/$MODULES/$SERVICENAME" "$BACKUPPATH/$SERVICENAME/module"
-    $compose restart worker
   fi
 
 fi

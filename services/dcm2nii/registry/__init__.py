@@ -11,6 +11,6 @@ def callback(jobName, headers, params, added_params, **kwargs):
     injected_params["ext"] = ".nii.gz"
 
     # Add files to be deleted
-    injected_params["deleted"] = ["nifti"]
+    # injected_params["deleted"] = ["nifti"]
 
   return True, injected_params

@@ -13,5 +13,8 @@ def worker(jobName, headers, params, added_params, **kwargs):
 
     if (not base is None) and (not filename is None) and (not dcmpath is None):
       dcm2niix = os.path.join(dir_path, "dcm2niix")
-      command = f"{dcm2niix} -z y -b n -f {filename} -o {base} {dcmpath}"
+      fullbase = os.path.join(DATA, base)
+      fulldcmpath = os.path.join(DATA, dcmpath)
+      command = f"{dcm2niix} -z y -b n -f {filename} -o {fullbase} {fulldcmpath}"
+      os.system(f"mkdir -p {fullbase}")
       os.system(command)

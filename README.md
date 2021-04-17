@@ -48,3 +48,18 @@ For an example of the service entry in the `modules` directory see the `temp` se
 
 
 ## The callback function
+A callback function takes the following arguments
+    `jobName`   : The name of the job
+    `headers`   : The selected fields in the dicom header
+    `params`    : The params object from the `settings.json`
+    `added_params`: This is a dictionary of `injected` params from other jobs.
+    `**kwargs`  : We recommend you add this to the list of arguments to capture all other params that may be passed.
+
+Note:
+1. Arguments are passed by name which means exact names should be used and position is not important.
+2. The callback function should return `True` if the job should be processed for the current dicom or `False` otherwise.
+3. It can also return a dictionary in addition to the `True/False` which will be sent to other `callbacks` and `worker` functions as `added_params`.
+4. The callback function should NOT be used to perform time intensive tasks. The actual job should be handled in the `worker` function.
+
+
+## The worker function

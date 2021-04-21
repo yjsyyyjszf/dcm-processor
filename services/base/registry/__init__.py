@@ -1,5 +1,6 @@
 def dicomAnonymizer(jobName, headers, params, added_params, **kwargs):
-  return True, {}
-
+  injected_params["deleted"] = ["dicom"]
+  return True, injected_params
+  
 def systemcleaner(jobName, headers, params, added_params, **kwargs):
   return True, {}

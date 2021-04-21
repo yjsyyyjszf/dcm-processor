@@ -88,9 +88,9 @@ This script can be used to `install`, `remove`, and `backup` services.
 - An installable service should be a parent folder with two sub-folders:
     * `registry` : This contains the files which will go into the services registry
     * `module`  : This contains the module files which goes into the services modules
-- To install a service run `service.sh install [servicename] [-p parentFolderPath]`
-- To remove a service run `service.sh remove [servicename] [-b backupPath]` backup path is optional
-- To backup a service run `service.sh backup [servicename] [-b backupPath]`
+- To install a service run `service.sh install <servicename> -p <parentFolderPath>`
+- To remove a service run `service.sh remove <servicename> -b <backupPath>` backup path is optional
+- To backup a service run `service.sh backup <servicename> -b <backupPath>`
 
 
 ## TO DOs

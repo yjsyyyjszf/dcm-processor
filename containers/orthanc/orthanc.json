@@ -44,9 +44,7 @@
   // List of paths to the custom Lua scripts that are to be loaded
   // into this instance of Orthanc
   "LuaScripts" : [
-    "Dcm2NiftiLua.lua",
-    "DcmFilterLua.lua",
-    "Orthanc2PacsLua.lua"
+    "Dcm2NiftiLua.lua"
   ],
 
   // List of paths to the plugins that are to be loaded into this

@@ -19,7 +19,7 @@ Note: Its good to run the containers without `sudo`. This can be achieved by cre
 
 
 ## Scaling up workers
-You can scale the number of workers by pass the argument `--scale worker=N` where `N` is the number of instances you want.
+You can scale the number of workers by passing the argument `--scale worker=N` to `run.sh` script, where `N` is the number of instances you want.
 
 
 ## Preparing your own service
@@ -74,7 +74,7 @@ A `worker` function takes the following arguments
    - `jobName`   : The name of the job.
    - `headers`   : The selected fields in the dicom header.
    - `params`    : The params object from the `settings.json`.
-   - `added_params`: This is a dictionary of `injected` params from other jobs.
+   - `added_params`: This is a dictionary of `injected` params from other jobs. Provide the name of the service whos parameters you want to access as a key to the dictionary for e.g. `added_params[servicename][keyname]`.
    - `**kwargs`  : We recommend you add this to the list of arguments to capture all other params that may be passed.
 
 Note:
@@ -88,10 +88,12 @@ This script can be used to `install`, `remove`, and `backup` services.
 - An installable service should be a parent folder with two sub-folders:
     * `registry` : This contains the files which will go into the services registry
     * `module`  : This contains the module files which goes into the services modules
-- To install a service run `service.sh install <servicename> -p <parentFolderPath>`
-- To remove a service run `service.sh remove <servicename> -b <backupPath>` backup path is optional
-- To backup a service run `service.sh backup <servicename> -b <backupPath>`
+- To install a service run `bash service.sh install <servicename> -p <parentFolderPath>`
+- To remove a service run `bash service.sh remove <servicename> -b <backupPath>` backup path is optional
+- To backup a service run `bash service.sh backup <servicename> -b <backupPath>`
 
+## Install the new service automatically.
+To add the new service permanently to the workflow, append the service intallation command to the `init.sh` file.
 
 ## TO DOs
 1. Support direct service installation from `git` source.

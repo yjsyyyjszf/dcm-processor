@@ -10,12 +10,16 @@ def callback(jobName, headers, params, added_params, **kwargs):
     injected_params["filename"] = f"{seriesId}"
     injected_params["ext"] = ".nii.gz"
 
-    # Add files to be deleted
+    # Add files to be stored into pacs
+    '''
     injected_params["storage"] = {
       "path": os.path.join("nifti", f"{seriesId}.nii.gz"),
-      "type": "nifti"
+      "type": "nifti",
+      "destination": "pac",
+      "tags": {"Series Description": "Exported With dcm2nii"}
     }
-
-    #injected_params["deleted"] = ["nifti"]
+    '''
+    # Add files to be deleted
+    # injected_params["deleted"] = ["nifti"]
 
   return True, injected_params

@@ -87,8 +87,6 @@ services:
     secrets:
       - orthanc.json
       - Dcm2NiftiLua.lua
-      - DcmFilterLua.lua
-      - Orthanc2PacsLua.lua
       - dcm2niix
     environment:
       SCHEDULER_HOST: ${SCHEDULER_HOST}
@@ -99,9 +97,5 @@ secrets:
     file: ./containers/orthanc/orthanc.json
   Dcm2NiftiLua.lua:
     file: ./containers/orthanc/Dcm2NiftiLua.lua
-  DcmFilterLua.lua:
-    file: ./containers/orthanc/DcmFilterLua.lua
-  Orthanc2PacsLua.lua:
-    file: ./containers/orthanc/Orthanc2PacsLua.lua
   dcm2niix:
     file: ./containers/orthanc/dcm2niix

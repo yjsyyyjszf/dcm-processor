@@ -36,7 +36,7 @@
  <e en="F" t="00080061" n="ModalitiesInStudy"></e>
  <e en="F" t="00080064" n="ConversionType"></e>
  <e en="F" t="00080068" n="PresentationIntentType"></e>
- <e en="T" t="00080070" n="Manufacturer">@empty()</e>
+ <e en="T" t="00080070" n="Manufacturer">@keep()</e>
  <e en="T" t="00080080" n="InstitutionName">@remove()</e>
  <e en="T" t="00080081" n="InstitutionAddress">@remove()</e>
  <e en="T" t="00080082" n="InstitutionCodeSeq">@remove()</e>
@@ -71,7 +71,7 @@
  <e en="T" t="00081072" n="OperatorsIdentificationSeq">@remove()</e>
  <e en="T" t="00081080" n="AdmittingDiagnosisDescription">@remove()</e>
  <e en="T" t="00081084" n="AdmittingDiagnosisCodeSeq">@remove()</e>
- <e en="T" t="00081090" n="ManufacturerModelName">@remove()</e>
+ <e en="T" t="00081090" n="ManufacturerModelName">@keep()</e>
  <e en="F" t="00081100" n="RefResultsSeq"></e>
  <e en="T" t="00081110" n="RefStudySeq">@remove()</e>
  <e en="T" t="00081111" n="RefPPSSeq">@remove()</e>
@@ -875,7 +875,7 @@
  <e en="F" t="00400251" n="PPSEndTime"></e>
  <e en="F" t="00400252" n="PPSStatus"></e>
  <e en="T" t="00400253" n="PPSID">@remove()</e>
- <e en="T" t="00400254" n="PPSDescription">@remove()</e>
+ <e en="T" t="00400254" n="PerformedProcedureStepDescription">@keep()</e>
  <e en="F" t="00400255" n="PerformedProcedureTypeDescription"></e>
  <e en="F" t="00400260" n="PerformedProtocolCodeSeq"></e>
  <e en="F" t="00400270" n="ScheduledStepAttributesSeq"></e>

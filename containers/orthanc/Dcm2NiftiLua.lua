@@ -19,7 +19,7 @@ function OnStableSeries(seriesId, tags, metadata)
 
       local ActionSource = data["ActionSource"]
 
-      if ActionSource == "dcm-processor" then
+      if ActionSource ~= nil then
          return
       end
 

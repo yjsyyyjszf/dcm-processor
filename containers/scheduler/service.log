@@ -1,1 +1,9 @@
 2021-05-06 21:57:02,067 - worker - ERROR - Exception: name 'injected_params' is not defined
+2021-05-06 22:09:25,127 - worker - ERROR - Exception: name 'injected_params' is not defined
+2021-05-06 22:14:20,925 - worker - ERROR - Exception: name 'injected_params' is not defined
+2021-05-06 22:19:36,694 - worker - ERROR - Exception: name 'injected_params' is not defined
+2021-05-06 22:25:00,919 - worker - ERROR - Exception: name 'injected_params' is not defined
+2021-05-06 22:30:49,466 - worker - ERROR - Exception: name 'injected_params' is not defined
+2021-05-06 22:35:32,036 - worker - ERROR - Exception: name 'injected_params' is not defined
+2021-05-06 22:43:57,657 - worker - ERROR - Exception: name 'injected_params' is not defined
+2021-05-06 23:01:09,162 - worker - ERROR - Exception: name 'injected_params' is not defined

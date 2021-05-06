@@ -23,7 +23,7 @@ def load_header_codes():
   return data
 
 
-def post_file_to_orthanc(filedata, filefmt, added_tags, seriesId):
+def post_file_to_orthanc(filedata, filefmt, destination, added_tags, seriesId):
   header = {'content-type': 'application/json'}
   authOrthanc = (ORTHANC_REST_USERNAME, ORTHANC_REST_PASSWORD)
   url = ORTHANC_REST_URL
@@ -156,7 +156,7 @@ def post_dicom_to_orthanc(path, filefmt, destination ,added_tags, seriesId, base
 def patch_series_private_meta(seriesId, tags):
   header = {'content-type': 'application/json'}
   authOrthanc = (ORTHANC_REST_USERNAME, ORTHANC_REST_PASSWORD)
-  url = "http://localhost:8042"#ORTHANC_REST_URL
+  url = ORTHANC_REST_URL
 
   payloadModify = {"Replace" : tags, "PrivateCreator": "DCM-PROCESSOR"}
   POST_modify = url + "/series/" + seriesId + "/modify"
@@ -164,11 +164,11 @@ def patch_series_private_meta(seriesId, tags):
   resp = requests.post(POST_modify, json=payloadModify, auth=authOrthanc, headers=header)
 
   if resp.status_code == 200:
-    print("Successfully updated series")
+    print("Successfully updated series", flush=True)
     DELETE_series = url + "/series/" + seriesId
     requests.delete(DELETE_series, auth=authOrthanc, headers=header)
   else:
-    print(resp.status_code)
+    print("unable to update series tags", resp.status_code, flush=True)
 
 
 def process_storage(storages, headers, params, added_params, **kwargs):
@@ -185,6 +185,7 @@ def process_storage(storages, headers, params, added_params, **kwargs):
       f_type = str(f_type).lower()
       fullpath = os.path.join(DATA, store.get("path"))
       tags = {}
+
       destination = store.get("destination", DEFAULT_STORE)
 
       if "tags" in store:
@@ -196,7 +197,7 @@ def process_storage(storages, headers, params, added_params, **kwargs):
         try:
           fileobject = open(fullpath, "rb")
           filedata = str(base64.b64encode(fileobject.read()), 'utf-8')
-          post_file_to_orthanc(filedata, f_type, tags, headers.get("seriesId"))
+          post_file_to_orthanc(filedata, f_type, destination, tags, headers.get("seriesId"))
         except Exception as err:
           print(f"Error: {err}")
 

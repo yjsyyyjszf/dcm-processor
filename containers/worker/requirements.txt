@@ -1,0 +1,5 @@
+SimpleITK
+numpy
+nibabel
+pydicom
+requests

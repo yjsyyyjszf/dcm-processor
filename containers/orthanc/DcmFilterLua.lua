@@ -1,12 +1,13 @@
 function ReceivedInstanceFilter(dicom, origin, info)
-   -- Only allow incoming MR images
+   local ActionSource = dicom.ActionSource
+   -- Only allow incoming CT images
    if dicom.Modality == 'CT' then
    	return true
-   elseif dicom.SeriesDescription == 'ANDUIN' then
-   	PrintRecursive(dicom)
-   	return true
+   -- Only allow incoming dcm-processed images
+   elseif dicom.ActionSource ~= nil then
+      return true
    else
-   	PrintRecursive(dicom)
+      -- PrintRecursive(dicom)
    	return false
    end
 end

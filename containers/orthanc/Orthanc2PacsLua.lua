@@ -1,22 +1,18 @@
 function OnStoredInstance(instanceId, tags, metadata)
    -- Extract the value of the "PatientName" DICOM tag
-   local seriesName = string.lower(tags['SeriesDescription'])
-   local seriesNumber = tags['SeriesNumber']
+   local ActionSource = tags['ActionSource']
+   local ActionType = tags['ActionType']
+   local Action = tags['Action']
+   local ActionDestination = tags['ActionDestination']
 
-   print('Instance: ' .. seriesName)
-   print('Number: ' .. seriesNumber)
-
-
-  if string.find(seriesName, 'anduin') ~= nil and 
-  	seriesNumber == "261282" then
-	
-	print('Sending PDF to PACS: ' .. seriesName)
-	-- Only route series whose SeriesDescription contains "anduin"
-	-- and SeriesNumber contains 261282
-	SendToModality(instanceId, 'pacs')
-
+   if ActionSource == "dcm-processor" then
+      -- Only route series whose Action contains "store-data"
+      if Action == 'store-data' then
+	      print('Storing Data From ' .. ActionSource .. ' To ' .. ActionDestination )
+	      SendToModality(instanceId, ActionDestination)
+      end
   else
       -- Delete the patients that are not called "David"
-      --Delete(instanceId)
+      -- Delete(instanceId)
    end
 end

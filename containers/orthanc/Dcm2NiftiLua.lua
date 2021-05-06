@@ -7,49 +7,38 @@ function ToAscii(s)
 end
 
 function OnStableSeries(seriesId, tags, metadata)
-   print('This series is now stable, writing its instances on the disk: ' .. seriesId)
-
  
-   local instances = ParseJson(RestApiGet('/series/' .. seriesId)) ['Instances']
-   local patientId = ParseJson(RestApiGet('/series/' .. seriesId .. '/patient')) ['ID']
-   local studyId = ParseJson(RestApiGet('/series/' .. seriesId .. '/study')) ['ID']
-
-   print('NumberOfInstances: ' .. #instances)
+   local series = ParseJson(RestApiGet('/series/' .. seriesId))
+   local instances = series['Instances']
 
    if #instances > 3 then
 
-      --print(patientId)
-      --print(studyId)
+      local patientId = ParseJson(RestApiGet('/series/' .. seriesId .. '/patient')) ['ID']
+      local studyId = ParseJson(RestApiGet('/series/' .. seriesId .. '/study')) ['ID']
+      local data = ParseJson(RestApiGet('/instances/' .. instances[1] .. '/simplified-tags'))
+
+      local ActionSource = data["ActionSource"]
+
+      if ActionSource == "dcm-processor" then
+         return
+      end
+
+      print("Stable Series Received, Storing series on disk :" .. seriesId)
 
       local dcmpath = ToAscii(TARGET .. '/dicom/' .. seriesId)
       os.execute('mkdir -p "' .. dcmpath .. '"')
 
-      local data = ParseJson(RestApiGet('/instances/' .. instances[1] .. '/simplified-tags'))
-      -- local target = assert(io.open(TARGET .. '/' .. seriesId .. '.json', 'wb'))
-      -- target:write(DumpJson(data,true))
-      -- target:close()
-
       for i, instance in pairs(instances) do
-
-         --print(i,instance)
-
          -- Retrieve the DICOM file from Orthanc
          local dicom = RestApiGet('/instances/' .. instance .. '/file')      
-
          -- Write to the file
          local target = assert(io.open(dcmpath .. '/' .. instance .. '.dcm', 'wb'))
          target:write(dicom)
          target:close()
       end
 
-      -- DCM2NIIX command line tool 
-      -- local cmd = ToAscii('/run/secrets/dcm2niix -z y -b n -f ' .. seriesId .. ' -o ' .. TARGET .. ' ' .. dcmpath)
-      -- print('Execute: ' .. cmd)
-      -- os.execute(cmd)
-
-      -- Anduin Connector (RestApi - POST)
+      -- dcm scheduler (RestApi - POST)
       local urlAddress = os.getenv("SCHEDULER_HOST") .. ':' .. os.getenv("SCHEDULER_PORT") .. '/stable-series'
-      -- local data = {}
 
       data["patientId"] = patientId
       data["studyId"] = studyId
@@ -58,12 +47,9 @@ function OnStableSeries(seriesId, tags, metadata)
 
       local headers = {}
       headers["Content-Type"] = "application/json"
-      --print(urlAddress)
-      --print(data)
       HttpPost(urlAddress, DumpJson(data,true), headers)
    else
       print('EXIT: No valied DICOM Series for NIFTI Conversion!')
-
    end
 
 end

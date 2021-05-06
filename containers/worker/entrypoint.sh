@@ -4,6 +4,7 @@ export TZ=Europe/Berlin
 export DEBIAN_FRONTEND=noninteractive
 export LC_ALL=C.UTF-8
 export LANG=C.UTF-8
+export DISPLAY=:0
 
 REQUIREMENTS="$MODULES/*/requirements.txt"
 SLOGS="$LOGS/shell.txt"
@@ -22,8 +23,8 @@ do
   python -m pip install -r "$REQUIREMENT"
 done
 
-watchmedo shell-command -p="$REQUIREMENTS" -R -D -c ' requirements.sh "${watch_event_type} ${watch_src_path}" >> $PLOGS ' &
+watchmedo shell-command -w -p="$REQUIREMENTS" -R -D -c ' requirements.sh "${watch_event_type} ${watch_src_path}" >> $PLOGS ' &
 
-watchmedo shell-command -p="$SCRIPTS" -R -D -c ' script.sh "${watch_event_type} ${watch_src_path}" >> $SLOGS ' &
+watchmedo shell-command -w -p="$SCRIPTS" -R -D -c ' script.sh "${watch_event_type} ${watch_src_path}" >> $SLOGS ' &
 
 rq worker --path "$MODULES" -u "redis://:$REDIS_PSWD@$REDIS_HOST:$REDIS_PORT"  $JOBS

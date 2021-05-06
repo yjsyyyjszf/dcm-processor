@@ -15,14 +15,25 @@
   ],
   "postServices":[
     {
-      "jobName": "systemClearner",
-      "worker": "base.systemcleaner.worker",
-      "callback": "base.systemcleaner",
+      "jobName": "storageManager",
+      "worker": "base.storageManager.worker",
+      "callback": "base.storageManager",
       "dependsOn": null,
       "priority": "default",
       "timeout": "1h",
       "params": {},
       "sortPosition": 0,
+      "description": "Storage Service"
+    },
+    {
+      "jobName": "systemClearner",
+      "worker": "base.systemcleaner.worker",
+      "callback": "base.systemcleaner",
+      "dependsOn": "storageManager",
+      "priority": "default",
+      "timeout": "1h",
+      "params": {},
+      "sortPosition": 1,
       "description": "System Cleaning Service"
     }
   ]

@@ -71,7 +71,6 @@ def load_system_config():
 
     return data
 
-
 def start_job(jobname, worker, kwargs, timeout='1h', priority=None, depends_on=None):
     kwargs["jobName"] = jobname
     if priority is None:

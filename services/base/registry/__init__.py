@@ -3,3 +3,6 @@ def dicomAnonymizer(jobName, headers, params, added_params, **kwargs):
 
 def systemcleaner(jobName, headers, params, added_params, **kwargs):
   return True, {}
+
+def storageManager(jobName, headers, params, added_params, **kwargs):
+  return True, {}

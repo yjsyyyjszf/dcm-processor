@@ -11,6 +11,11 @@ def callback(jobName, headers, params, added_params, **kwargs):
     injected_params["ext"] = ".nii.gz"
 
     # Add files to be deleted
-    injected_params["deleted"] = ["nifti"]
+    injected_params["storage"] = {
+      "path": os.path.join("nifti", f"{seriesId}.nii.gz"),
+      "type": "nifti"
+    }
+
+    #injected_params["deleted"] = ["nifti"]
 
   return True, injected_params

@@ -23,4 +23,6 @@ RUN apt-get update && \
     python -m pip install rq watchdog argh pyyaml && \
     python -m pip install -r requirements.txt
 
+RUN apt-get install -y openjdk-8-jdk default-jre
+
 CMD ["bash", "entrypoint.sh"]

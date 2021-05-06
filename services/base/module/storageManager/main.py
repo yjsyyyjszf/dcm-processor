@@ -1,5 +1,5 @@
 import os, shutil, requests, base64, json, time
-from lib import nifti_to_dicom, import_dicom_to_orthanc, load_and_update_meta
+from .lib import nifti_to_dicom, import_dicom_to_orthanc, load_and_update_meta
 import SimpleITK as sitk
 
 DATA = os.getenv('DATA', '/data')
